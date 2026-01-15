@@ -1,5 +1,7 @@
 package com.hexagonal_arquitecture.hexagonal_arquitecture.domain.models;
 
+import java.util.Set;
+
 public class User {
 
     private Long id;
@@ -8,6 +10,7 @@ public class User {
     private String passwordHash;
     private boolean enabled;
     private UserProfile profile;
+    private Set<Role> roles;
 
     public User(){}
 
@@ -57,5 +60,13 @@ public class User {
 
     public void setProfile(UserProfile profile) {
         this.profile = profile;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

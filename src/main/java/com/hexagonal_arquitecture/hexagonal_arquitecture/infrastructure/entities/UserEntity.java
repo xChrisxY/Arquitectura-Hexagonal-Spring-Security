@@ -1,7 +1,8 @@
 package com.hexagonal_arquitecture.hexagonal_arquitecture.infrastructure.entities;
 
-import com.hexagonal_arquitecture.hexagonal_arquitecture.domain.models.UserProfile;
 import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -21,6 +22,15 @@ public class UserEntity {
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     private UserProfileEntity profile;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "role_id"})
+    )
+    private Set<RoleEntity> roles;
 
     public UserEntity(){}
 
@@ -75,5 +85,13 @@ public class UserEntity {
 
     public void setProfile(UserProfileEntity profile) {
         this.profile = profile;
+    }
+
+    public Set<RoleEntity> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<RoleEntity> roles) {
+        this.roles = roles;
     }
 }
