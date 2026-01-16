@@ -2,6 +2,7 @@ package com.hexagonal_arquitecture.hexagonal_arquitecture.infrastructure.entitie
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -32,7 +33,16 @@ public class UserEntity {
     )
     private Set<RoleEntity> roles;
 
-    public UserEntity(){}
+    @OneToMany(mappedBy = "professor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CourseEntity> courses;
+
+    public UserEntity(){
+        this.roles = new HashSet<>();
+    }
+
+    public void addRole(RoleEntity role){
+        this.roles.add(role);
+    }
 
     @PrePersist
     public void prePersist(){
@@ -93,5 +103,13 @@ public class UserEntity {
 
     public void setRoles(Set<RoleEntity> roles) {
         this.roles = roles;
+    }
+
+    public Set<CourseEntity> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Set<CourseEntity> courses) {
+        this.courses = courses;
     }
 }

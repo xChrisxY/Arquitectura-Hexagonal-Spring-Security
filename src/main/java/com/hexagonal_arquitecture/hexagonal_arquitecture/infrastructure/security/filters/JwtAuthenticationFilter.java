@@ -19,9 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import static com.hexagonal_arquitecture.hexagonal_arquitecture.infrastructure.security.TokenJwtConfig.*;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -77,7 +75,27 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .expiration(new Date(System.currentTimeMillis() + 3600000))
                 .compact();
 
+        Map<String, String> body = new HashMap<>();
+        body.put("token", token);
+        body.put("message", String.format("%s has iniciado sesión con éxito.", username));
 
+        response.getWriter().write(new ObjectMapper().writeValueAsString(body));
+        response.addHeader(HEADER_AUTHORIZATION, PREFIX_TOKEN + token);
+        response.setContentType(CONTENT_TYPE);
+        response.setStatus(200);
 
+    }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+
+        Map<String, String> body = new HashMap<>();
+
+        body.put("message", "Error en la autenticación, username or password incorrectos.");
+        body.put("error", failed.getMessage());
+
+        response.getWriter().write(new ObjectMapper().writeValueAsString(body));
+        response.setContentType(CONTENT_TYPE);
+        response.setStatus(401);
     }
 }

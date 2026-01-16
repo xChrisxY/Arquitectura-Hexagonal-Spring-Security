@@ -1,44 +1,57 @@
 package com.hexagonal_arquitecture.hexagonal_arquitecture.infrastructure.controllers;
 
 import com.hexagonal_arquitecture.hexagonal_arquitecture.domain.models.User;
-import com.hexagonal_arquitecture.hexagonal_arquitecture.domain.ports.in.CreateUserUseCase;
+import com.hexagonal_arquitecture.hexagonal_arquitecture.domain.ports.in.user.RetrieveUserUseCase;
 import com.hexagonal_arquitecture.hexagonal_arquitecture.infrastructure.dto.ApiResponse;
-import com.hexagonal_arquitecture.hexagonal_arquitecture.infrastructure.dto.user.UserDTO;
 import com.hexagonal_arquitecture.hexagonal_arquitecture.infrastructure.dto.user.UserResponseDTO;
 import com.hexagonal_arquitecture.hexagonal_arquitecture.infrastructure.mappers.user.UserMapper;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
-    private CreateUserUseCase createUserUseCase;
-    private UserMapper userMapper;
+    private final RetrieveUserUseCase retrieveUserUseCase;
+    private final UserMapper userMapper;
 
     public UserController(
-            CreateUserUseCase createUserUseCase,
+            RetrieveUserUseCase retrieveUserUseCase,
             UserMapper userMapper
     ){
-        this.createUserUseCase = createUserUseCase;
+        this.retrieveUserUseCase = retrieveUserUseCase;
         this.userMapper = userMapper;
     }
 
-    @PostMapping
-    public ResponseEntity<ApiResponse<UserResponseDTO>> createUser(@Valid @RequestBody UserDTO dto){
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<UserResponseDTO>>> list(){
 
-        User user = userMapper.toDomain(dto);
-        User createdUser = createUserUseCase.execute(user);
-        UserResponseDTO userResponseDTO = userMapper.toResponseDTO(createdUser);
+        List<User> users = retrieveUserUseCase.getAllUsers();
+        List<UserResponseDTO> responseDTOList =  userMapper.toResponseDTOToList(users);
 
-        ApiResponse<UserResponseDTO> response = new ApiResponse<>("User created successfully", userResponseDTO);
+        ApiResponse<List<UserResponseDTO>> response = new ApiResponse<>(
+                "Users obtained successfully",
+                responseDTOList
+        );
 
-        return ResponseEntity.status(HttpStatus.CREATED.value()).body(response);
+        return ResponseEntity.status(HttpStatus.OK.value()).body(response);
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<ApiResponse<UserResponseDTO>> findById(@PathVariable Long userId){
+
+        User user = retrieveUserUseCase.getUserById(userId);
+        UserResponseDTO userResponseDTO = userMapper.toResponseDTO(user);
+
+        ApiResponse<UserResponseDTO> response = new ApiResponse<>(
+                "User obtained successfully",
+                userResponseDTO
+        );
+
+        return ResponseEntity.status(HttpStatus.OK.value()).body(response);
     }
 
 }

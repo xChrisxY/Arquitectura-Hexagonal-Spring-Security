@@ -10,6 +10,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface UserPersistenceMapper {
 
+    @Mapping(target = "roles", ignore = true)
     UserEntity toEntity(User user);
 
     @Mapping(target = "profile.user", ignore = true)

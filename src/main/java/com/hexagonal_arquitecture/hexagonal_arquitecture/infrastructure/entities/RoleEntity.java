@@ -12,7 +12,7 @@ public class RoleEntity {
 
     private String name;
 
-    private RoleEntity(){}
+    public RoleEntity(){}
 
     public Long getId() {
         return id;
@@ -28,5 +28,13 @@ public class RoleEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

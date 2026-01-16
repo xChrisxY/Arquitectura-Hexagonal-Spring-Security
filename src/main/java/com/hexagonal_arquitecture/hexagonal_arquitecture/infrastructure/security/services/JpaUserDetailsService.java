@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,12 +25,13 @@ public class JpaUserDetailsService implements UserDetailsService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
 
         if (optionalUser.isEmpty()){
-            throw new UsernameNotFoundException(String.format("Username %s no existe en el sistema", username));
+            throw new UsernameNotFoundException(String.format("Username %s no existe en el el sistema", username));
         }
 
         UserEntity user = optionalUser.get();

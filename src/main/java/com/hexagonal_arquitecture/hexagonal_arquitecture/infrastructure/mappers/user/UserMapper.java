@@ -8,6 +8,8 @@ import com.hexagonal_arquitecture.hexagonal_arquitecture.infrastructure.dto.user
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
@@ -15,5 +17,7 @@ public interface UserMapper {
     User toDomain(UserDTO dto);
 
     UserResponseDTO toResponseDTO(User user);
+
+    List<UserResponseDTO> toResponseDTOToList(List<User> users);
 
 }

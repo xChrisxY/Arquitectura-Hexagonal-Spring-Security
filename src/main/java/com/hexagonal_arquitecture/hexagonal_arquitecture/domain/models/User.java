@@ -1,5 +1,6 @@
 package com.hexagonal_arquitecture.hexagonal_arquitecture.domain.models;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class User {
@@ -11,8 +12,15 @@ public class User {
     private boolean enabled;
     private UserProfile profile;
     private Set<Role> roles;
+    private Set<Course> courses;
 
-    public User(){}
+    public User(){
+        this.roles = new HashSet<>();
+    }
+
+    public void addRole(Role role){
+        this.roles.add(role);
+    }
 
     public Long getId() {
         return id;
@@ -68,5 +76,13 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
     }
 }
