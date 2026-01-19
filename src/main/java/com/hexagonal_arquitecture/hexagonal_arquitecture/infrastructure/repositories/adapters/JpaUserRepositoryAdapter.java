@@ -77,4 +77,11 @@ public class JpaUserRepositoryAdapter implements UserRepositoryPort {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<User> findByUsername(String professor){
+        Optional<UserEntity> userEntity = jpaUserRepository.findByUsername(professor);
+        return userEntity.map(userMapper::toDomain);
+    }
+
 }

@@ -9,4 +9,5 @@ public interface UserRepositoryPort {
     User save(User user);
     Optional<User> findById(Long userId);
     List<User> findAll();
+    Optional<User> findByUsername(String professor);
 }

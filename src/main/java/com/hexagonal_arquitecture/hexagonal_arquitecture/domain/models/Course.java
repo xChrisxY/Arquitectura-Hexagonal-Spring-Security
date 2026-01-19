@@ -16,6 +16,13 @@ public class Course {
 
     public Course(){}
 
+    public void update(String title, String description, float price, Level level){
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.level = level;
+    }
+
     public Long getId() {
         return id;
     }

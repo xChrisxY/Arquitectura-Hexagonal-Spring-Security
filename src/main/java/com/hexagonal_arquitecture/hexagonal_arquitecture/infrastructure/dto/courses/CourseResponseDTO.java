@@ -1,16 +1,11 @@
-package com.hexagonal_arquitecture.hexagonal_arquitecture.infrastructure.entities;
+package com.hexagonal_arquitecture.hexagonal_arquitecture.infrastructure.dto.courses;
 
 import com.hexagonal_arquitecture.hexagonal_arquitecture.domain.enums.Level;
-import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "courses")
-public class CourseEntity {
+public class CourseResponseDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String description;
@@ -18,17 +13,7 @@ public class CourseEntity {
     private Level level;
     private LocalDateTime published;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity professor;
-
-    public CourseEntity(){}
-
-    @PrePersist()
-    public void prePersist(){
-        this.published = LocalDateTime.now();
-    }
-
+    public CourseResponseDTO(){}
 
     public Long getId() {
         return id;
@@ -76,13 +61,5 @@ public class CourseEntity {
 
     public void setPublished(LocalDateTime published) {
         this.published = published;
-    }
-
-    public UserEntity getProfessor() {
-        return professor;
-    }
-
-    public void setProfessor(UserEntity professor) {
-        this.professor = professor;
     }
 }
