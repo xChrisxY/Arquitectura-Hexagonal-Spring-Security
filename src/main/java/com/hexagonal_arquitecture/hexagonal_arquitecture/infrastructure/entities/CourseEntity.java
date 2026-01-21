@@ -4,6 +4,7 @@ import com.hexagonal_arquitecture.hexagonal_arquitecture.domain.enums.Level;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "courses")
@@ -17,6 +18,9 @@ public class CourseEntity {
     private float price;
     private Level level;
     private LocalDateTime published;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<LessonEntity> lessons;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

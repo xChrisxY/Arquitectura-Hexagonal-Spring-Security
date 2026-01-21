@@ -1,23 +1,24 @@
-package com.hexagonal_arquitecture.hexagonal_arquitecture.domain.models;
+package com.hexagonal_arquitecture.hexagonal_arquitecture.infrastructure.dto.lesson;
 
-public class Lesson {
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
-    private Long id;
+public class LessonDTO {
+
+    @NotBlank
     private String title;
+    @NotBlank
+    @JsonProperty("video_url")
     private String videoUrl;
+    @NotNull
+    @Min(1)
     private Integer duration;
+    @NotNull
     private Integer position;
-    private Course course;
 
-    public Lesson(){}
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private LessonDTO(){}
 
     public String getTitle() {
         return title;
@@ -49,13 +50,5 @@ public class Lesson {
 
     public void setPosition(Integer position) {
         this.position = position;
-    }
-
-    public Course getCourse() {
-        return course;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
     }
 }

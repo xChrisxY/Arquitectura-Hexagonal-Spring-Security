@@ -3,6 +3,7 @@ package com.hexagonal_arquitecture.hexagonal_arquitecture.domain.models;
 import com.hexagonal_arquitecture.hexagonal_arquitecture.domain.enums.Level;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 public class Course {
     private Long id;
@@ -11,6 +12,7 @@ public class Course {
     private float price;
     private Level level;
     private LocalDateTime published;
+    private Set<Lesson> lessons;
 
     private User professor;
 
@@ -77,5 +79,13 @@ public class Course {
 
     public void setProfessor(User professor) {
         this.professor = professor;
+    }
+
+    public Set<Lesson> getLessons() {
+        return lessons;
+    }
+
+    public void setLessons(Set<Lesson> lessons) {
+        this.lessons = lessons;
     }
 }

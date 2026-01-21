@@ -1,15 +1,26 @@
-package com.hexagonal_arquitecture.hexagonal_arquitecture.domain.models;
+package com.hexagonal_arquitecture.hexagonal_arquitecture.infrastructure.entities;
 
-public class Lesson {
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "lessons")
+public class LessonEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+
+    @Column(name = "video_url")
     private String videoUrl;
     private Integer duration;
     private Integer position;
-    private Course course;
 
-    public Lesson(){}
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    private CourseEntity course;
+
+    public LessonEntity(){}
 
     public Long getId() {
         return id;
@@ -51,11 +62,11 @@ public class Lesson {
         this.position = position;
     }
 
-    public Course getCourse() {
+    public CourseEntity getCourse() {
         return course;
     }
 
-    public void setCourse(Course course) {
+    public void setCourse(CourseEntity course) {
         this.course = course;
     }
 }

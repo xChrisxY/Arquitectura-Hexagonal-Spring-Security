@@ -1,15 +1,14 @@
-package com.hexagonal_arquitecture.hexagonal_arquitecture.domain.models;
+package com.hexagonal_arquitecture.hexagonal_arquitecture.infrastructure.dto.lesson;
 
-public class Lesson {
+public class LessonResponseDTO {
 
     private Long id;
     private String title;
     private String videoUrl;
     private Integer duration;
     private Integer position;
-    private Course course;
 
-    public Lesson(){}
+    public LessonResponseDTO(){}
 
     public Long getId() {
         return id;
@@ -49,13 +48,5 @@ public class Lesson {
 
     public void setPosition(Integer position) {
         this.position = position;
-    }
-
-    public Course getCourse() {
-        return course;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
     }
 }
